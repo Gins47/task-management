@@ -84,7 +84,7 @@ docker-compose -f docker-compose.yaml up --build
 
 This will start:
 
-1. The frontend at http://localhost:3000
+1. The frontend at http://localhost:5173
 2. The backend API at http://localhost:3001
 
 MongoDB service for data storage
@@ -97,7 +97,7 @@ cd packages/client
 npm run dev
 ```
 
-Access the frontend at http://localhost:3000.
+Access the frontend at http://localhost:5173.
 
 Backend: Start the NestJS server:
 
@@ -113,7 +113,7 @@ The backend API will be available at http://localhost:3001.
 To deploy the application using Docker, run:
 
 ```bash
-docker-compose up --build -d
+ docker-compose -f docker-compose.yml up -d --build
 ```
 
 This will launch the application in detached mode. You can configure the environment variables to deploy the app to different environments (e.g., production).
