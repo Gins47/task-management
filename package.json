@@ -1,0 +1,26 @@
+{
+  "name": "task-management",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:client": "npm run dev --workspace=client",
+    "start:backend": "npm run start:dev --workspace=backend",
+    "start:all": "concurrently \"npm run start:client\" \"npm run start:backend\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:client": "npm run build --workspace=client",
+    "build:backend": "npm run build --workspace=backend",
+    "build:all": "npm run build:client && npm run build:backend"
+  },
+  "workspaces": [
+    "packages/shared-api",
+    "packages/backend/backend",
+    "packages/client"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "concurrently": "^9.0.1"
+  }
+}
