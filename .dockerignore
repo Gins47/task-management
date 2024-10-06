@@ -1,0 +1,25 @@
+# Ignore node_modules to avoid copying them to the Docker image
+node_modules
+npm-debug.log
+yarn-error.log
+pnpm-debug.log
+
+# Ignore build output
+dist
+
+# Ignore local environment variables and configuration files
+.env
+.env.local
+.env.*.local
+
+# Ignore log files
+*.log
+
+# Ignore git-related files
+.git
+.gitignore
+
+# Ignore any temp or cache files
+.vscode
+.idea
+.DS_Store

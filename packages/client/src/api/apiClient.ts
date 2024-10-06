@@ -1,10 +1,16 @@
 // src/api/apiClient.ts
 import axios, { AxiosError, AxiosResponse } from "axios";
 
+console.log(`import.meta.env.VITE_API_URL = ${import.meta.env.VITE_API_URL}`);
+
+const apiUrl = import.meta.env.VITE_API_URL
+  ? import.meta.env.VITE_API_URL
+  : "http://localhost:3001";
+
 // Create an Axios instance with default settings
 const apiClient = axios.create({
-  baseURL: "http://localhost:3001", // Change to your API base URL
-  timeout: 10000, // Optional: Set a timeout for requests
+  baseURL: apiUrl,
+  timeout: 10000,
 });
 
 // Request interceptor

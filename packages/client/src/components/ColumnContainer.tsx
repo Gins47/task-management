@@ -68,7 +68,7 @@ function ColumnContainer(props: Props) {
     <div
       ref={setNodeRef}
       style={style}
-      className="bg-columnBackgroundColor w-[350px] h-[500px] max-h-[500px] rounded-md flex flex-col"
+      className="bg-columnBackgroundColor w-[350px] h-[500px] max-h-[500px] rounded-md flex flex-col  border-zinc-300 border-2"
       onClick={() => {
         //TODO: change to true
         setEditMode(false);
@@ -78,7 +78,7 @@ function ColumnContainer(props: Props) {
       <div
         {...attributes}
         {...listeners}
-        className="bg-mainBackgroundColor text-md h-[60px] cursor-grab rounded-md rounded-b-none border-columnBackgroundColor border-4 flex items-center justify-between p-3"
+        className="bg-zinc-200 text-md h-[60px] cursor-grab rounded-md  border-zinc-300 border-2 flex items-center justify-between p-3 opacity-60"
       >
         <div className="flex gap-2">
           {editMode && (
@@ -102,7 +102,7 @@ function ColumnContainer(props: Props) {
           {!editMode && column.title}
         </div>
         <button
-          className="stroke-gray-500 hover:stroke-white hover:bg-columnBackgroundColor rounded px-1 py-2"
+          className="stroke-gray-500 hover:stroke-black hover:bg-columnBackgroundColor rounded px-1 py-2"
           onClick={() => {
             deleteColumn(column.id);
           }}

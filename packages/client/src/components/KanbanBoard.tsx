@@ -214,15 +214,6 @@ function KanbanBoard() {
     } catch (error) {
       console.error(`Error occurred when calling the api ${error}`);
     }
-
-    // const newTasks = tasks.map((task) => {
-    //   if (task.id != id) {
-    //     return task;
-    //   }
-    //   return { ...task, content };
-    // });
-
-    // setTask(newTasks);
   }
 
   return (
@@ -253,11 +244,10 @@ function KanbanBoard() {
             </SortableContext>
           </div>
           <button
-            className="h-[60px] w-[350px] min-w-[350px] cursor-pointer rounded-lg bg-mainBackgroundColor border-2 border-columnBackgroundColor p-4 ring-rose-500 hover:ring-2 flex gap-2"
+            className="h-[60px] w-[60px] min-w-[60px] cursor-pointer rounded-lg bg-mainBackgroundColor border-2 border-zinc-300 p-4 ring-rose-500 hover:ring-2 flex gap-2"
             onClick={createNewColumn}
           >
             <PlusIcon />
-            Add column
           </button>
         </div>
         {createPortal(

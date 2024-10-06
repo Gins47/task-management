@@ -74,7 +74,7 @@ function TaskCard({ task, deleteTask, updateTask }: TaskProps) {
         className="bg-mainBackgroundColor p-3 h-[100px] min-h-[100px] flex items-center text-left rounded-xl hover:ring-2  hover:ring-inset hover:ring-rose-500 cursor-grab relative "
       >
         <textarea
-          className="h-[90%] w-full resize-none border-none  rounded bg-transparent text-white focus:outline-none"
+          className="h-[90%] w-full resize-none border-none  rounded bg-transparent text-black focus:outline-none"
           value={task.content}
           autoFocus
           placeholder="Task content here"
@@ -95,7 +95,7 @@ function TaskCard({ task, deleteTask, updateTask }: TaskProps) {
       <div
         ref={setNodeRef}
         style={style}
-        className="bg-mainBackgroundColor p-3 h-[100px] min-h-[100px] flex items-center text-left rounded-xl  cursor-grab relative opacity-30 border-2 border-rose-500"
+        className="bg-zinc-200 p-3 h-[100px] min-h-[100px] flex items-center text-left rounded-xl  cursor-grab relative opacity-30 border-2 border-rose-500"
       ></div>
     );
   }
@@ -107,7 +107,7 @@ function TaskCard({ task, deleteTask, updateTask }: TaskProps) {
       {...attributes}
       {...listeners}
       onClick={toggleEditMode}
-      className="bg-mainBackgroundColor p-3 h-[100px] min-h-[100px] flex flex-col items-center text-left rounded-xl hover:ring-2  hover:ring-inset hover:ring-rose-500 cursor-grab relative task"
+      className="bg-zinc-100  p-3 h-[100px] min-h-[100px] flex flex-col items-left text-left rounded-xl hover:ring-2  hover:ring-inset hover:ring-rose-500 cursor-grab relative task border-zinc-300 border-2"
       onMouseEnter={() => {
         setMouseIsOver(true);
       }}
@@ -117,7 +117,7 @@ function TaskCard({ task, deleteTask, updateTask }: TaskProps) {
     >
       {mouseIsOver && (
         <button
-          className="stroke-white absolute right-4 top-1/3 bg-columnBackgroundColor p-2 rounded opacity-60 hover:opacity-100"
+          className="stroke-black absolute right-4 top-1/3 bg-zinc-300 p-2 rounded opacity-60 hover:opacity-100"
           onClick={() => {
             deleteTask(task.id);
           }}
@@ -127,17 +127,19 @@ function TaskCard({ task, deleteTask, updateTask }: TaskProps) {
       )}
 
       {/* Updated Time and Progress Bar */}
-      <div className="mt-2 ">
-        <div className="my-auto h-[40%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap">
-          {task.content}
+      <div className="flex justify-between">
+        <div className="mt-2 flex flex-col">
+          <div className="my-auto h-[40%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap font-bold">
+            {task.content}
+          </div>
+          <div className="bg-gray-600 rounded-full h-2 mt-1">
+            <div
+              className="bg-darkColor h-full rounded-full"
+              style={{ width: "60%" }}
+            ></div>
+          </div>
+          <p className="text-sm text-gray-500 p-2"> {timeAgo}</p>
         </div>
-        <div className="bg-gray-200 rounded-full h-2 mt-1">
-          <div
-            className="bg-darkColor h-full rounded-full"
-            style={{ width: "60%" }} // Example: Replace '60%' with dynamic value if needed
-          ></div>
-        </div>
-        <p className="text-sm text-gray-500 p-2"> {timeAgo}</p>
       </div>
     </div>
   );

@@ -7,7 +7,11 @@ import { ColumnsModule } from './columns/columns.module';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/tasks'),
+    MongooseModule.forRoot(
+      process.env.MONGO_URL
+        ? process.env.MONGO_URL
+        : 'mongodb://localhost:27017/tasks',
+    ),
     TaskModule,
     ColumnsModule,
   ],
