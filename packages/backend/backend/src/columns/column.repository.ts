@@ -15,9 +15,9 @@ export class ColumnRepository {
     return newTask.save();
   }
 
-  async updateTitle(id: string, title: string): Promise<Column> {
-    return this.columnModel.findByIdAndUpdate(
-      id,
+  async updateTitle(id: string, title: string) {
+    return await this.columnModel.updateOne(
+      { id },
       { title, updatedAt: new Date() },
       { new: true },
     );

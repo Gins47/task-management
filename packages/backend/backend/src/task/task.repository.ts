@@ -7,7 +7,11 @@ import { CreateTaskDto } from './dto/create-task.dto';
 @Injectable()
 export class TaskRepository {
   constructor(@InjectModel('Task') private readonly taskModel: Model<Task>) {}
-
+  /**
+   *
+   * @param createTaskDto
+   * @returns
+   */
   async create(createTaskDto: CreateTaskDto): Promise<Task> {
     const { id, columnId, content } = createTaskDto;
     const maxSequenceTask = await this.taskModel
@@ -25,12 +29,22 @@ export class TaskRepository {
 
     return newTask.save();
   }
-
+  /**
+   *
+   * @param columnId
+   * @returns
+   */
   async findTasksByColumn(columnId: string): Promise<Task[]> {
     return this.taskModel.find({ columnId }).sort({ sequence: 1 }).exec();
   }
 
   // Update task content
+  /**
+   *
+   * @param id
+   * @param content
+   * @returns
+   */
   async updateTask(id: string, content: string) {
     return await this.taskModel.updateOne(
       { id },
@@ -38,7 +52,12 @@ export class TaskRepository {
       { new: true },
     );
   }
-
+  /**
+   *
+   * @param taskId
+   * @param columnId
+   * @returns
+   */
   async updateColumnId(taskId: string, columnId: number): Promise<Task> {
     return this.taskModel.findByIdAndUpdate(
       taskId,
@@ -46,7 +65,12 @@ export class TaskRepository {
       { new: true },
     );
   }
-
+  /**
+   *
+   * @param taskId
+   * @param sequence
+   * @returns
+   */
   async updateTaskSequence(taskId: string, sequence: number): Promise<Task> {
     return this.taskModel.findByIdAndUpdate(
       taskId,
@@ -54,6 +78,11 @@ export class TaskRepository {
       { new: true },
     );
   }
+  /**
+   *
+   * @param taskId1
+   * @param taskId2
+   */
 
   async swapTaskSequence(taskId1: string, taskId2: string): Promise<void> {
     console.log(` swapping task sequence repo`);
@@ -82,47 +111,73 @@ export class TaskRepository {
   }
 
   // Move task to a new column and re-sequence tasks in both old and new columns
-  async moveTaskToColumn(taskId: string, newColumnId: number) {
-    const task = await this.taskModel.findOne({ id: taskId });
-    if (!task) {
-      throw new Error('Task not found');
+  /**
+   *
+   * @param taskId
+   * @param newColumnId
+   * @returns
+   */
+  async moveTaskToColumn(taskId: string, newColumnId: string) {
+    try {
+      const task = await this.taskModel.findOne({ id: taskId });
+      if (!task) {
+        throw new Error('Task not found');
+      }
+
+      console.log(`task = ${JSON.stringify(task)}`);
+
+      // Find the max sequence in the new column
+      const maxSequenceTask = await this.taskModel
+        .findOne({ columnId: parseInt(newColumnId) })
+        .sort({ sequence: -1 })
+        .exec();
+      const nextSequence = maxSequenceTask ? maxSequenceTask.sequence + 1 : 1;
+
+      // Update the task's columnId and sequence
+      await this.taskModel.updateOne(
+        { id: taskId },
+        {
+          columnId: parseInt(newColumnId),
+          sequence: nextSequence,
+          updatedAt: new Date(),
+        },
+        { new: true },
+      );
+
+      //send updated list
+      const updatedTaskList = await this.findAll();
+
+      return updatedTaskList;
+    } catch (error) {
+      console.error(` Error when moving to a new column ${error}`);
+      throw error;
     }
-
-    const oldColumnId = task.columnId;
-
-    // Find the max sequence in the new column
-    const maxSequenceTask = await this.taskModel
-      .findOne({ columnId: newColumnId })
-      .sort({ sequence: -1 })
-      .exec();
-    const nextSequence = maxSequenceTask ? maxSequenceTask.sequence + 1 : 1;
-
-    // Update the task's columnId and sequence
-    await this.taskModel.updateOne(
-      { id: taskId },
-      { columnId: newColumnId, sequence: nextSequence, updatedAt: new Date() },
-      { new: true },
-    );
-
-    // re-sequence the old column tasks (e.g., decrease sequences after the task is moved)
-    await this.resequenceColumnTasks(oldColumnId);
-
-    //send updated list
-    const updatedTaskList = await this.findAll();
-
-    return updatedTaskList;
   }
 
+  /**
+   *
+   * @returns
+   */
   async findAll(): Promise<Task[]> {
     return this.taskModel.find().sort({ sequence: 1 }).exec();
   }
 
   // Function to delete a task by its ID
+  /**
+   *
+   * @param id
+   * @returns
+   */
   async deleteById(id: string) {
     return this.taskModel.deleteOne({ id }).exec();
   }
 
   // Function to delete tasks by columnId
+  /**
+   *
+   * @param columnId
+   * @returns
+   */
 
   async deleteTasksByColumnId(
     columnId: number,
@@ -133,11 +188,19 @@ export class TaskRepository {
   }
 
   // Function to delete all tasks
+  /**
+   *
+   * @returns
+   */
   async deleteAll(): Promise<{ deletedCount: number }> {
     return this.taskModel.deleteMany({}).exec();
   }
 
   // Helper function to re-sequence tasks in a column
+  /**
+   *
+   * @param columnId
+   */
   private async resequenceColumnTasks(columnId: string): Promise<void> {
     const tasks = await this.findTasksByColumn(columnId);
     for (let i = 0; i < tasks.length; i++) {

@@ -51,7 +51,7 @@ export class TaskService {
   }
 
   // Move task to a new column
-  async moveTaskToColumn(taskId: string, newColumnId: number) {
+  async moveTaskToColumn(taskId: string, newColumnId: string) {
     try {
       return this.taskRepository.moveTaskToColumn(taskId, newColumnId);
     } catch (error) {

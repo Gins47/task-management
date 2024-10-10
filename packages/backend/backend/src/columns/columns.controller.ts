@@ -3,9 +3,9 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
+  Put,
 } from '@nestjs/common';
 import { ColumnService } from './columns.service';
 import { CreateColumnDto } from './dto/create-column.dto';
@@ -21,15 +21,15 @@ export class ColumnsController {
     return this.columnsService.createColumn(createColumnDto);
   }
 
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateColumnDto: UpdateColumnDto) {
+    return this.columnsService.updateColumnTitle(id, updateColumnDto);
+  }
+
   @Get()
   findAll() {
     return this.columnsService.getColumns();
   }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateColumnDto: UpdateColumnDto) {
-  //   return this.columnsService.update(+id, updateColumnDto);
-  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {

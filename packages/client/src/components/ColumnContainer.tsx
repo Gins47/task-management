@@ -5,6 +5,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { useMemo, useState } from "react";
 import PlusIcon from "../icons/PlusIcon";
 import TaskCard from "./TaskCard";
+import EditIcon from "../icons/EditIcon";
 
 interface Props {
   column: Column;
@@ -69,10 +70,6 @@ function ColumnContainer(props: Props) {
       ref={setNodeRef}
       style={style}
       className="bg-columnBackgroundColor w-[350px] h-[500px] max-h-[500px] rounded-md flex flex-col  border-zinc-300 border-2"
-      onClick={() => {
-        //TODO: change to true
-        setEditMode(false);
-      }}
     >
       {/** Title */}
       <div
@@ -83,7 +80,7 @@ function ColumnContainer(props: Props) {
         <div className="flex gap-2">
           {editMode && (
             <input
-              className="bg-black focus:border-rose-500 border rounded outline-none px-3 gap-5"
+              className="bg-zinc-400 focus:border-rose-500 border rounded outline-none px-3 gap-5"
               value={column.title}
               onChange={(e) => updateColumn(column.id, e.target.value)}
               autoFocus
@@ -99,7 +96,19 @@ function ColumnContainer(props: Props) {
               }}
             />
           )}
-          {!editMode && column.title}
+          {!editMode && (
+            <div className="flex gap-2">
+              <span>{column.title}</span>
+              <button
+                className="stroke-gray-500 "
+                onClick={() => {
+                  setEditMode(true);
+                }}
+              >
+                <EditIcon />
+              </button>
+            </div>
+          )}
         </div>
         <button
           className="stroke-gray-500 hover:stroke-black hover:bg-columnBackgroundColor rounded px-1 py-2"

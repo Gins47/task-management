@@ -15,6 +15,7 @@ function TaskCard({ task, deleteTask, updateTask }: TaskProps) {
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [timeAgo, setTimeAgo] = useState("");
+  const [content, setContent] = useState(task.content);
 
   const {
     setNodeRef,
@@ -75,16 +76,20 @@ function TaskCard({ task, deleteTask, updateTask }: TaskProps) {
       >
         <textarea
           className="h-[90%] w-full resize-none border-none  rounded bg-transparent text-black focus:outline-none"
-          value={task.content}
+          value={content}
           autoFocus
           placeholder="Task content here"
           onBlur={toggleEditMode}
           onKeyDown={(e) => {
             if (e.key === "Enter" && e.shiftKey) {
+              e.preventDefault();
+              updateTask(task.id, content);
               toggleEditMode();
             }
           }}
-          onChange={(e) => updateTask(task.id, e.target.value)}
+          onChange={(e) => {
+            setContent(e.target.value);
+          }}
         ></textarea>
       </div>
     );
@@ -132,10 +137,10 @@ function TaskCard({ task, deleteTask, updateTask }: TaskProps) {
           <div className="my-auto h-[40%] w-full overflow-y-auto overflow-x-hidden whitespace-pre-wrap font-bold">
             {task.content}
           </div>
-          <div className="bg-gray-600 rounded-full h-2 mt-1">
+          <div className="bg-gray-600 rounded-full h-2 mt-1 w-full">
             <div
               className="bg-darkColor h-full rounded-full"
-              style={{ width: "60%" }}
+              style={{ width: "10%" }}
             ></div>
           </div>
           <p className="text-sm text-gray-500 p-2"> {timeAgo}</p>

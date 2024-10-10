@@ -46,7 +46,7 @@ export class TaskController {
   @Put(':id/move-column')
   async moveTaskToColumn(
     @Param('id') taskId: string,
-    @Body('newColumnId') newColumnId: number,
+    @Body('newColumnId') newColumnId: string,
   ) {
     console.log(`Inside moving task to column `, taskId, newColumnId);
     return this.taskService.moveTaskToColumn(taskId, newColumnId);

@@ -12,7 +12,7 @@ export class ColumnService {
     return this.columnRepository.create(createColumnDto);
   }
 
-  async updateColumnStatus(id: string, updateColumnDto: UpdateColumnDto) {
+  async updateColumnTitle(id: string, updateColumnDto: UpdateColumnDto) {
     return this.columnRepository.updateTitle(id, updateColumnDto.title);
   }
 
